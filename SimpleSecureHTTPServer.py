@@ -1,12 +1,12 @@
 #!/usr/bin/python
-import BaseHTTPServer, SimpleHTTPServer
+import http.server, http.server
 import ssl
-    
+
 def run(args):
-    httpd = BaseHTTPServer.HTTPServer((args.hostname, args.port), SimpleHTTPServer.SimpleHTTPRequestHandler)
+    httpd = http.server.HTTPServer((args.hostname, args.port), http.server.SimpleHTTPRequestHandler)
     httpd.socket = ssl.wrap_socket(httpd.socket, certfile=args.cert, server_side=True)
     name, addr = httpd.socket.getsockname()
-    print("Serving HTTPS on {} port {}...".format(name, addr))
+    print(("Serving HTTPS on {} port {}...".format(name, addr)))
     httpd.serve_forever()
 
 if __name__ == '__main__':
